@@ -32,9 +32,9 @@ function generateWheelSequence(coordinate, ltr) {
     // start at 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 31, 33, 34
     // 35, 36, 37, 38, 39, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 
-	var wheelOrder = [];
+    var wheelOrder = [];
 
-	for ( var i = startingPosition; i < wheel.length; i++ ) {
+    for ( var i = startingPosition; i < wheel.length; i++ ) {
 
         if (startingPosition === endingPosition) {
             break;
@@ -67,7 +67,7 @@ function generateWheelSequence(coordinate, ltr) {
             //console.log(wheel[i]);
             wheelOrder.push(wheel[i]);
         }
-	}
+    }
     return wheelOrder;
 }
 
