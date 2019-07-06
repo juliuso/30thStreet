@@ -24,8 +24,8 @@ var c24 = "#c24";
 
 function generateWheelSequence(coordinate, ltr) {
 	// in reality:
-  var startingPosition = wheel.indexOf(document.querySelector(coordinate).textContent);
-	var endingPosition = wheel.indexOf(ltr);
+    var startingPosition = wheel.indexOf(document.querySelector(coordinate).textContent);
+    var endingPosition = wheel.indexOf(ltr);
 	// var endIndex = wheel.indexOf(newLetter);
 	//
 	// Ex. Start at J, end at A.
@@ -36,65 +36,65 @@ function generateWheelSequence(coordinate, ltr) {
 
 	for ( var i = startingPosition; i < wheel.length; i++ ) {
 
-		if (startingPosition === endingPosition) {
-			break;
-		}
+        if (startingPosition === endingPosition) {
+            break;
+        }
 
-    if (i === endingPosition) {
-			//console.log(wheel[i]);
-			wheelOrder.push(wheel[i]);
-			break;
-		}
+        if (i === endingPosition) {
+                //console.log(wheel[i]);
+                wheelOrder.push(wheel[i]);
+                break;
+        }
 
-    if ( i === (wheel.length-1) ) {
-			if (endingPosition < i) {
-				//console.log(wheel[i]);
-				wheelOrder.push(wheel[i]);
-				i = 0;
-        if (i === endingPosition){
-					//console.log(wheel[i]);
-					wheelOrder.push(wheel[i]);
-					break;
-				} else {
-					//console.log(wheel[i]);
-					wheelOrder.push(wheel[i]);
-				}
-			} else {
-				//console.log(wheel[i]);
-				wheelOrder.push(wheel[i]);
-			}
-		} else {
-			//console.log(wheel[i]);
-			wheelOrder.push(wheel[i]);
-		}
+        if ( i === (wheel.length-1) ) {
+            if (endingPosition < i) {
+                //console.log(wheel[i]);
+                wheelOrder.push(wheel[i]);
+                i = 0;
+                if (i === endingPosition){
+                    //console.log(wheel[i]);
+                    wheelOrder.push(wheel[i]);
+                    break;
+                } else {
+                    //console.log(wheel[i]);
+                    wheelOrder.push(wheel[i]);
+                }
+            } else {
+                //console.log(wheel[i]);
+                wheelOrder.push(wheel[i]);
+            }
+        } else {
+            //console.log(wheel[i]);
+            wheelOrder.push(wheel[i]);
+        }
 	}
-	return wheelOrder;
+    return wheelOrder;
 }
 
-
-
 function changeCell(coordinate, ltr) {
-  console.log(coordinate);
-  console.log(ltr);
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audioCtx = new AudioContext({
+    console.log(coordinate);
+    console.log(ltr);
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    
+    const audioCtx = new AudioContext({
 
-  });
-  var audio = new Audio('button2a.wav');
-  var interval = 150; // how much time should the delay between two iterations be (in milliseconds)?
-  var wheelOrder = generateWheelSequence(coordinate, ltr);
+    });
+    
+    var audio = new Audio('button2a.wav');
+    var interval = 150; // how much time should the delay between two iterations be (in milliseconds)?
+    var wheelOrder = generateWheelSequence(coordinate, ltr);
 
-  wheelOrder.forEach(function (el, index) {
-    setTimeout(function () {
-      //console.log(el);
-      //console.log("Tick: " + Math.floor(Date.now() ));
-      //$(coordinate).slideDown("slow", function() {
-        document.querySelector(coordinate).textContent = el;
-      //});
-      //console.log("Tock: " + Math.floor(Date.now() ));
-      audio.play();
-    }, index * interval);
-  });
+    wheelOrder.forEach(function (el, index) {
+        setTimeout(function () {
+        //console.log(el);
+        //console.log("Tick: " + Math.floor(Date.now() ));
+        //$(coordinate).slideDown("slow", function() {
+            document.querySelector(coordinate).textContent = el;
+        //});
+        //console.log("Tock: " + Math.floor(Date.now() ));
+        audio.play();
+        }, index * interval);
+    });
 }
 
 function hello() {
