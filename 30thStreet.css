@@ -1,0 +1,20 @@
+body {
+  font-family: SF Mono, monospace;
+  font-size: 2em;
+  background: black;
+
+}
+
+td {
+  color: white;
+  /*text-decoration: line-through;*/
+  padding: 0;
+}
+
+.double {
+  width: 2em;
+}
+
+.spacer {
+  background-color: black;
+}
