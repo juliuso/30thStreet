@@ -8,4 +8,7 @@
 
 * Find a suitable animation to mimic the flip-down effect.
 * Find a suitable sound effect to complement each flip transition.
-* Get the sound effect to play and behave consistenly across browsers.
+* Get the sound effect to play consistenly across browsers.
+  * Safari vs non-Safari browsers.
+  * Mobile considerations.
+  * Sound is out of sync with effect when using wireless headphones due to latency. Likely unfixable.
