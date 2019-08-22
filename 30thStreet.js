@@ -17,57 +17,58 @@ var c22 = "#c22";
 var c23 = "#c23";
 var c24 = "#c24";
 
-/*
-1. Get current element.
-2. If current element !== updated element, rotate to next element and check again.
-*/
 
 function generateWheelSequence(coordinate, ltr) {
-    // in reality:
+    // Index of current cell.
     var startingPosition = wheel.indexOf(document.querySelector(coordinate).textContent);
+    // Index of new cell to transition to.
     var endingPosition = wheel.indexOf(ltr);
-    // var endIndex = wheel.indexOf(newLetter);
-    //
-    // Ex. Start at J, end at A.
-    // start at 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 31, 33, 34
-    // 35, 36, 37, 38, 39, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 
     var wheelOrder = [];
 
+    // ' 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-./'
+    //  0                                      40
     for ( var i = startingPosition; i < wheel.length; i++ ) {
 
+        // If the letter doesn't change before and after, do nothing.
         if (startingPosition === endingPosition) {
             break;
         }
-
+        // If the index equals the last character's index in the sequence,
+        // add it to the wheel and stop.
         if (i === endingPosition) {
-                //console.log(wheel[i]);
-                wheelOrder.push(wheel[i]);
-                break;
+            wheelOrder.push(wheel[i]);
+            break;
         }
 
+        // When the last index of the wheel is reached.
         if ( i === (wheel.length-1) ) {
+            // Indexing starts from the beginning again.
             if (endingPosition < i) {
-                //console.log(wheel[i]);
+                // Push last index of wheel and start over at i=0.
                 wheelOrder.push(wheel[i]);
                 i = 0;
-                if (i === endingPosition){
-                    //console.log(wheel[i]);
+                // If the index of the last character in the sequence coincides
+                // with the first index of the wheel, add it and break out.
+                // Otherwise add it to the wheel and continue.
+                if (i === endingPosition) {
                     wheelOrder.push(wheel[i]);
                     break;
                 } else {
-                    //console.log(wheel[i]);
                     wheelOrder.push(wheel[i]);
                 }
+            // endingPosition ahead of index, so
+            // add to wheel and continue.
             } else {
-                //console.log(wheel[i]);
                 wheelOrder.push(wheel[i]);
             }
+        // For all other cases where index hasn't reached the
+        // last character of the wheel.
         } else {
-            //console.log(wheel[i]);
             wheelOrder.push(wheel[i]);
         }
     }
+
     return wheelOrder;
 }
 
@@ -165,6 +166,25 @@ function regional() {
     changeCell(c16, 'L');
     changeCell(c17, ' ');
     changeCell(c18, ' ');
+    changeCell(c19, ' ');
+    changeCell(c20, ' ');
+    changeCell(c21, ' ');
+    changeCell(c22, ' ');
+    changeCell(c23, ' ');
+    changeCell(c24, ' ');
+}
+
+function washington() {
+    changeCell(c9,  'W');
+    changeCell(c10, 'A');
+    changeCell(c11, 'S');
+    changeCell(c12, 'H');
+    changeCell(c13, 'I');
+    changeCell(c14, 'N');
+    changeCell(c15, 'G');
+    changeCell(c16, 'T');
+    changeCell(c17, 'O');
+    changeCell(c18, 'N');
     changeCell(c19, ' ');
     changeCell(c20, ' ');
     changeCell(c21, ' ');
