@@ -223,25 +223,24 @@ changeCell = (wheel, coordinate, ltr) => {
     // console.log(coordinate);
     // console.log(ltr);
 
-    // const AudioContext = window.AudioContext || window.webkitAudioContext;
+    // var AudioContext = window.AudioContext || window.webkitAudioContext;
+    // var audioCtx = new AudioContext();
 
-    // const audioCtx = new AudioContext({
-    // });
-    
     var audio = new Audio('button2a.wav');
+    // var aud = new Audio('440short.wav');
+    
+    // var audioCtx = new Audio("button2a.wav");
+
+    //var audio = new Audio('button2a.wav');
     var interval = 150; // how much time should the delay between two iterations be (in milliseconds)?
     var wheelOrder = generateWheelSequence(wheel, coordinate, ltr);
 
     wheelOrder.forEach( (el, index) => {
+
         setTimeout(function () {
-            //console.log(el);
-            //console.log("Tick: " + Math.floor(Date.now() ));
-            //$(coordinate).slideDown("slow", function() {
+
             document.querySelector('#' + coordinate).textContent = el;
-            //});
-            //console.log("Tock: " + Math.floor(Date.now() ));
-            
-            // Turn off during development. Annoying to listen to.
+
             audio.play();
 
         }, index * interval);
@@ -288,6 +287,47 @@ populate = () => {
     fourth();
 }
 
+// First wave of updates.
+a = () => {
+    //first wave of updates
+    update(2, '1055', '646 ', 'KEYSTONE -R     ', 'NEW YORK', 'PHILADELPHIA', '10mins LATE', '7');
+    update(3, '1100', '643 ', 'KEYSTONE        ', 'HARRISBURG', 'PHILADELPHIA', 'ON TIME', '9');
+}
+
+b = () => {
+    update(4, '1110', '182 ', 'REGIONAL        ', 'NEW YORK', 'WASHINGTON', 'ON TIME', ' ');
+    update(5, '1115', '2153', 'ACELA EXPRESS   ', 'WASHINGTON', 'BOSTON', 'ON TIME', ' ');
+}
+
+c = () => {
+    update(6, '1116', '141 ', 'REGIONAL        ', 'WASHINGTON', 'SPRINGFIELD', 'ON TIME', ' ');
+    update(7, '1123', '4623', 'N.J. TRANSIT    ', 'ATLANTIC CITY', 'PHILADELPHIA', 'ON TIME', ' ');
+}
+
+
+// Second wave of updates.
+d = () => {
+    //second wave
+    update(1, '1055', '646 ', 'KEYSTONE -R     ', 'NEW YORK', 'PHILADELPHIA', '10mins LATE', '7');
+    update(2, '1100', '648 ', 'KEYSTONE        ', 'HARRISBURG', 'PHILADELPHIA', 'BOARDING', '9');
+}
+
+e = () => {
+    update(3, '1110', '182 ', 'REGIONAL        ', 'NEW YORK', 'WASHINGTON', 'ON TIME', ' ');
+    update(4, '1115', '2153', 'ACELA EXPRESS   ', 'WASHINGTON', 'BOSTON', 'ON TIME', ' ');
+
+}
+
+f = () => {
+    update(5, '1116', '141 ', 'REGIONAL        ', 'WASHINGTON', 'SPRINGFIELD', 'ON TIME', ' ');
+    update(6, '1123', '4623', 'N.J. TRANSIT    ', 'ATLANTIC CITY', 'PHILADELPHIA', 'ON TIME', ' ');
+}
+
+g = () => {
+    update(7, '1131', '216A', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'ON TIME', ' ');
+
+}
+
 // '                '
 thanks = () => {
   //update(n, '    ', '    ', '                ', ' ', ' ', ' ', ' ', ' ');
@@ -296,23 +336,38 @@ thanks = () => {
     update(3, '    ', '    ', ' PLAY TO REPEAT ', ' ', ' ', ' ', ' ', ' ');
     update(4, '    ', '    ', 'THE SEQUENCE OR ', ' ', ' ', ' ', ' ', ' ');
     update(5, '    ', '    ', 'USE THE CONSOLE ', ' ', ' ', ' ', ' ', ' ');
-    update(6, '    ', '    ', '  TO SEE MORE   ', ' ', ' ', ' ', ' ', ' ');
+    update(6, '    ', '    ', '    FOR MORE    ', ' ', ' ', ' ', ' ', ' ');
     update(7, '    ', '    ', '    OPTIONS.    ', ' ', ' ', ' ', ' ', ' ');
 }
 
+tuse = () => {
+    //update(n, '    ', '    ', '                ', ' ', ' ', ' ', ' ', ' ');
+    update(1, '    ', '    ', 'GREETINGS TUSE. ', ' ', ' ', ' ', ' ', ' ');
+    update(2, '    ', '    ', 'WISHING YOU AND ', ' ', ' ', ' ', ' ', ' ');
+    update(3, '    ', '    ', '   EVERYONE A   ', ' ', ' ', ' ', ' ', ' ');
+    update(4, '    ', '    ', '  TUSE-TACULAR  ', ' ', ' ', ' ', ' ', ' ');
+    update(5, '    ', '    ', 'DAY IN THE GREAT', ' ', ' ', ' ', ' ', ' ');
+    update(6, '    ', '    ', '    CITY OF     ', ' ', ' ', ' ', ' ', ' ');
+    update(7, '    ', '    ', '  T U S E O N.  ', ' ', ' ', ' ', ' ', ' ');
+  }
+
 help = () => {
-    console.log('There are 7 rows in the flipboard. To update a row:')
+    console.log('Arrays used in all transitions are alpha, cities, trainStatus, and stairways.')
+    console.log('There are 7 rows (1-7) in the flipboard. To update a row:')
     console.log("update(row, time, train_number, train, to, from, status, stairway);")
     console.log("EXAMPLE: update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'BOARDING', '3');")
     console.log("All parameters are strings except for the row number. The 'train' parameter must be 16 characters long, and padded with spaces if less than 16 characters.")
     console.log('Clearing a row:');
-    console.log("update(n, '    ', '    ', '                ', ' ', ' ', ' ', ' ', ' ');");
+    console.log("clearRow(rowNumber);");
     console.log("When a train's status is 'BOARDING', a yellow blinker appears");
     console.log("Changing the status to 'DEPARTED' deactivates the blinker.");
     console.log("update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'DEPARTED', '3');");
     console.log("clearBoard(); will clear the board completely.");
-    console.log("populate(); will fill the board up simultaneously.");
-
+    console.log("populate(); will fill the board up all at once.");
+    console.log("first() populates rows 1 and 2.");
+    console.log("second() populates rows 3 and 4.")
+    console.log("third() populates rows 5 and 6.")
+    console.log("fourth() populates row 7.")
 }
 
 function Q(f, interval) {
@@ -323,12 +378,18 @@ function Q(f, interval) {
 
 play = () => {
     Q(clearBoard, 0);
-    Q(first, 2000);
-    Q(second, 9000);
-    Q(third, 16000);
-    Q(fourth, 22000);
-    //Q(clearBoard, 35000);
-    Q(thanks, 28000);
+    Q(first, 3000);
+    Q(second, 10000);
+    Q(third, 17000);
+    Q(fourth, 24000);
+    Q(a, 29000);
+    Q(b, 36000);
+    Q(c, 47000);
+    Q(d, 54000);
+    Q(e, 61000);
+    Q(f, 68000);
+    Q(g, 75000);
+    Q(thanks, 85000);
 }
 
 console.log('Welcome to the 30th Street Flipboard.');

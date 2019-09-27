@@ -3,11 +3,9 @@ html {
 }
 body {
   font-family: 'Roboto Mono', monospace;
-  /* background-image: url('30th_Street_Station_concourse_March_2019.jpeg'); */
   background-image: url('Philly_30th_St._Station_interior.jpg');
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  /* background-position: center center; */
 }
 #amtrak {
   color: white;
@@ -45,18 +43,21 @@ th.yellow {
   text-decoration: line-through black;
 }
 th, td {
-  border: 1px solid black;
   text-align: left;
 }
+/* #r1, #r2, #r3, #r4, #r5, #r6, #r7 {
+  border: 1px solid red;
+} */
 div.container {
   width: 1440px;
-  margin: 250px auto;
+  margin: 150px auto;
   padding: 0px 0px 10px 69px;
   background: black;
+  opacity: 0.9;
   color: white;
 }
 div.meta {
-  width: 250px;
+  width: 400px;
   background: gray;
 }
 #outer-table {
