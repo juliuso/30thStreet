@@ -9,6 +9,9 @@ body {
   background-repeat: no-repeat;
   /* background-position: center center; */
 }
+#amtrak {
+  color: white;
+}
 h1 {
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 75px; 
