@@ -1,6 +1,6 @@
 ![](30thStreetScreenShot.png)
 
-# 30thStreet
+# 30thStreet (Works best with Chrome)
 
 [Demo](https://juliuso.com/projects/30thStreet/)
 
