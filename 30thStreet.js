@@ -1,26 +1,173 @@
-var wheel = ' 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-./'.split('');
+// For Time, Number, and Train Columns.
+var alpha = ' 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-./'.split('');
 
-var c9 = "#c9";
-var c10 = "#c10";
-var c11 = "#c11";
-var c12 = "#c12";
-var c13 = "#c13";
-var c14 = "#c14";
-var c15 = "#c15";
-var c16 = "#c16";
-var c17 = "#c17";
-var c18 = "#c18";
-var c19 = "#c19";
-var c20 = "#c20";
-var c21 = "#c21";
-var c22 = "#c22";
-var c23 = "#c23";
-var c24 = "#c24";
+// For To/From Cities.
+var cities = [
+	' ',
+    'BOSTON',
+    'SPRINGFIELD',
+    'NEW HAVEN',
+    'STAMFORD',
+    'NEW YORK',
+    'NEWARK',
+    'TRENTON',
+    'PHILADELPHIA',
+    'WILMINGTON',
+    'BALTIMORE',
+    'WASHINGTON',
+    'CHICAGO',
+    'SAVANNAH',
+    'JACKSONVILLE',
+    'ORLANDO',
+    'TAMPA',
+    'NEW ORLEANS',
+    'ST PETERSBURG',
+    'MIAMI',
+    'NEWPORT NEWS',
+    'ATLANTA',
+    'MONTREAL',
+    'PITTSBURGH',
+    'HARRISBURG',
+    'RICHMOND',
+    'CAPE COD',
+    'ATLANTIC CITY',
+    'CHARLOTTE',
+    'VERMONT'
+];
 
+// For Train Status.
+var trainStatus = [ 
+	' ',
+    'ON TIME',
+    'CANCELLED',
+    'DELAYED',
+    'BOARDING',
+    'DEPARTED',
+    'ARRIVED',
+    ' 5mins LATE',
+    '10mins LATE',
+    '15mins LATE',
+    '20mins LATE',
+    '25mins LATE',
+    '30mins LATE',
+    '40mins LATE',
+    '50mins LATE',
+    '1hr 15min LATE',
+    '1hr 30min LATE',
+    '1hr 45min LATE',
+    '2hr LATE',
+    '2hr 15min LATE',
+    '2hr 30min LATE',
+    '2hr 45min LATE',
+    '3hr LATE',
+    'SPECIAL TRAIN',
+    'CONNECTION',
+    'ONE HOUR LATE'
+];
 
-function generateWheelSequence(coordinate, ltr) {
+// For Stairway assignment.
+var stairways = [
+	' ',
+	'1',
+	'2',
+	'3',
+	'4',
+	'5',
+	'6',
+	'7',
+	'8',
+	'9',
+	'10',
+	'11',
+	'12',
+	'13',
+	'14',
+	'15',
+	'16',
+	'17',
+	'18',
+	'19',
+	'20',
+	'21',
+	'22',
+	'23',
+	'24',
+	'25',
+	'A',
+	'B',
+	'C'
+];
+
+//(1  , 1031, 2158,   BIEBER-TOURWAYS, ATLANTIC CITY, ATLANTIC CITY, 2hr 45min LATE, 3)
+update = (row, time, num, train, to, from, status, stairway) => {
+	var rowNumber = 'r' + row;
+	var timeArr = time.split('');
+	var numberArr = num.split('');
+	var trainArr = train.split('');
+	
+	// time [0,3]
+	for (var i = 0; i < timeArr.length; i++) {
+		var coordinate = rowNumber + 'c' + i;
+		//document.getElementById(coordinate).textContent = timeArr[i];
+		changeCell(alpha, coordinate, timeArr[i]);
+	}
+	
+	// number [4, 7]
+	// changing var from i to j doesn't matter. It's locally scoped.
+	for (var i = 0; i < numberArr.length; i++) {
+		var coordinate = rowNumber + 'c' + (i + 4);
+		//console.log(coordinate, numberArr[i]);
+		//document.getElementById(coordinate).textContent = numberArr[i];
+		changeCell(alpha, coordinate, numberArr[i]);
+	}
+	
+	// train [8, 23]
+	for (var i = 0; i < trainArr.length; i++) {
+		var coordinate = rowNumber + 'c' + (i + 8);
+		//document.getElementById(coordinate).textContent = trainArr[i];
+		changeCell(alpha, coordinate, trainArr[i]);
+	}
+	
+	// to 24
+	//document.getElementById(rowNumber + 'c24').textContent = to;
+	changeCell(cities, rowNumber + 'c24', to)
+	
+	// from 25
+	//document.getElementById(rowNumber + 'c25').textContent = from;
+	changeCell(cities, rowNumber + 'c25', from);
+	
+	// status 26
+	//document.getElementById(rowNumber + 'c26').textContent = status;
+    
+    boardingCheck = (trainStatus, rowNumber, status) => {
+        
+        changeCell(trainStatus, rowNumber + 'c26', status);
+
+        // boarding_light 28
+        // This will eventually activate a CSS class or something to place a
+        // yellow light to in indicate boarding.
+        // console.log(rowNumber);
+
+        if (typeof(Number(rowNumber)) === "number" && status === "BOARDING") {
+            document.getElementById(rowNumber + 'c28').children[0].className += " blink-image";
+        } else {
+            document.getElementById(rowNumber + 'c28').children[0].className = "blinker";
+        }
+
+    };
+
+    boardingCheck(trainStatus, rowNumber, status);
+	
+	// stairway 27
+	//document.getElementById(rowNumber + 'c27').textContent = stairway;
+	changeCell(stairways, rowNumber + 'c27', stairway);
+
+}
+
+generateWheelSequence = (wheel, coordinate, ltr) => {
     // Index of current cell.
-    var startingPosition = wheel.indexOf(document.querySelector(coordinate).textContent);
+    var startingPosition = wheel
+        .indexOf(document.querySelector('#'+coordinate).textContent);
     // Index of new cell to transition to.
     var endingPosition = wheel.indexOf(ltr);
 
@@ -72,142 +219,117 @@ function generateWheelSequence(coordinate, ltr) {
     return wheelOrder;
 }
 
-function changeCell(coordinate, ltr) {
-    console.log(coordinate);
-    console.log(ltr);
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    
-    const audioCtx = new AudioContext({
+changeCell = (wheel, coordinate, ltr) => {
+    // console.log(coordinate);
+    // console.log(ltr);
 
-    });
+    // const AudioContext = window.AudioContext || window.webkitAudioContext;
+
+    // const audioCtx = new AudioContext({
+    // });
     
     var audio = new Audio('button2a.wav');
     var interval = 150; // how much time should the delay between two iterations be (in milliseconds)?
-    var wheelOrder = generateWheelSequence(coordinate, ltr);
+    var wheelOrder = generateWheelSequence(wheel, coordinate, ltr);
 
-    wheelOrder.forEach(function (el, index) {
+    wheelOrder.forEach( (el, index) => {
         setTimeout(function () {
-        //console.log(el);
-        //console.log("Tick: " + Math.floor(Date.now() ));
-        //$(coordinate).slideDown("slow", function() {
-            document.querySelector(coordinate).textContent = el;
-        //});
-        //console.log("Tock: " + Math.floor(Date.now() ));
-        audio.play();
+            //console.log(el);
+            //console.log("Tick: " + Math.floor(Date.now() ));
+            //$(coordinate).slideDown("slow", function() {
+            document.querySelector('#' + coordinate).textContent = el;
+            //});
+            //console.log("Tock: " + Math.floor(Date.now() ));
+            
+            // Turn off during development. Annoying to listen to.
+            audio.play();
+
         }, index * interval);
     });
 }
 
-function hello() {
-    changeCell(c9,  'H');
-    changeCell(c10, 'E');
-    changeCell(c11, 'L');
-    changeCell(c12, 'L');
-    changeCell(c13, 'O');
-    changeCell(c14, ' ');
-    changeCell(c15, 'W');
-    changeCell(c16, 'O');
-    changeCell(c17, 'R');
-    changeCell(c18, 'L');
-    changeCell(c19, 'D');
-    changeCell(c20, ' ');
-    changeCell(c21, ' ');
-    changeCell(c22, ' ');
-    changeCell(c23, ' ');
-    changeCell(c24, ' ');
+first = () => {
+    update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'BOARDING', '3');
+    update(2, '1042', ' 8H ', 'REGIONAL        ', 'BOSTON', 'RICHMOND', 'BOARDING', '1');
 }
 
-function keystone() {
-    changeCell(c9,  'K');
-    changeCell(c10, 'E');
-    changeCell(c11, 'Y');
-    changeCell(c12, 'S');
-    changeCell(c13, 'T');
-    changeCell(c14, 'O');
-    changeCell(c15, 'N');
-    changeCell(c16, 'E');
-    changeCell(c17, ' ');
-    changeCell(c18, ' ');
-    changeCell(c19, ' ');
-    changeCell(c20, ' ');
-    changeCell(c21, ' ');
-    changeCell(c22, ' ');
-    changeCell(c23, ' ');
-    changeCell(c24, ' ');
+second = () => {
+    update(3, '1055', '646 ', 'KEYSTONE -R     ', 'NEW YORK', 'PHILADELPHIA', 'BOARDING', '7');
+    update(4, '1100', '643 ', 'KEYSTONE        ', 'HARRISBURG', 'PHILADELPHIA', 'ON TIME', '9');
 }
 
-function acela() {
-    changeCell(c9,  'A');
-    changeCell(c10, 'C');
-    changeCell(c11, 'E');
-    changeCell(c12, 'L');
-    changeCell(c13, 'A');
-    changeCell(c14, ' ');
-    changeCell(c15, 'E');
-    changeCell(c16, 'X');
-    changeCell(c17, 'P');
-    changeCell(c18, 'R');
-    changeCell(c19, 'E');
-    changeCell(c20, 'S');
-    changeCell(c21, 'S');
-    changeCell(c22, ' ');
-    changeCell(c23, ' ');
-    changeCell(c24, ' ');
+third = () => {
+    update(5, '1110', '182 ', 'REGIONAL        ', 'NEW YORK', 'WASHINGTON', 'ON TIME', ' ');
+    update(6, '1115', '2153', 'ACELA EXPRESS   ', 'WASHINGTON', 'BOSTON', 'ON TIME', ' ');
 }
 
-function regional() {
-    changeCell(c9,  'R');
-    changeCell(c10, 'E');
-    changeCell(c11, 'G');
-    changeCell(c12, 'I');
-    changeCell(c13, 'O');
-    changeCell(c14, 'N');
-    changeCell(c15, 'A');
-    changeCell(c16, 'L');
-    changeCell(c17, ' ');
-    changeCell(c18, ' ');
-    changeCell(c19, ' ');
-    changeCell(c20, ' ');
-    changeCell(c21, ' ');
-    changeCell(c22, ' ');
-    changeCell(c23, ' ');
-    changeCell(c24, ' ');
+fourth = () => {
+    update(7, '1116', '141 ', 'REGIONAL        ', 'WASHINGTON', 'SPRINGFIELD', 'ON TIME', ' ');
 }
 
-function washington() {
-    changeCell(c9,  'W');
-    changeCell(c10, 'A');
-    changeCell(c11, 'S');
-    changeCell(c12, 'H');
-    changeCell(c13, 'I');
-    changeCell(c14, 'N');
-    changeCell(c15, 'G');
-    changeCell(c16, 'T');
-    changeCell(c17, 'O');
-    changeCell(c18, 'N');
-    changeCell(c19, ' ');
-    changeCell(c20, ' ');
-    changeCell(c21, ' ');
-    changeCell(c22, ' ');
-    changeCell(c23, ' ');
-    changeCell(c24, ' ');
+tc = () => {
+    update(1, '1031', '2158', 'VERMONTER       ', 'BOSTON', 'WASHINGTON', 'BOARDING', '3');
 }
 
-function clearRow() {
-    changeCell(c9,  ' ');
-    changeCell(c10, ' ');
-    changeCell(c11, ' ');
-    changeCell(c12, ' ');
-    changeCell(c13, ' ');
-    changeCell(c14, ' ');
-    changeCell(c15, ' ');
-    changeCell(c16, ' ');
-    changeCell(c17, ' ');
-    changeCell(c18, ' ');
-    changeCell(c19, ' ');
-    changeCell(c20, ' ');
-    changeCell(c21, ' ');
-    changeCell(c22, ' ');
-    changeCell(c23, ' ');
-    changeCell(c24, ' ');
+clearRow = (n) => {
+    update(n, '    ', '    ', '                ', ' ', ' ', ' ', ' ', ' ');
 }
+
+clearBoard = () => {
+    for (var i = 1; i < 8; i++) {
+        clearRow(i);
+    }
+}
+
+populate = () => {
+    first();
+    second();
+    third();
+    fourth();
+}
+
+// '                '
+thanks = () => {
+  //update(n, '    ', '    ', '                ', ' ', ' ', ' ', ' ', ' ');
+    update(1, '    ', '    ', '   THANKS FOR   ', ' ', ' ', ' ', ' ', ' ');
+    update(2, '    ', '    ', 'VISITING. PRESS ', ' ', ' ', ' ', ' ', ' ');
+    update(3, '    ', '    ', ' PLAY TO REPEAT ', ' ', ' ', ' ', ' ', ' ');
+    update(4, '    ', '    ', 'THE SEQUENCE OR ', ' ', ' ', ' ', ' ', ' ');
+    update(5, '    ', '    ', 'USE THE CONSOLE ', ' ', ' ', ' ', ' ', ' ');
+    update(6, '    ', '    ', '  TO SEE MORE   ', ' ', ' ', ' ', ' ', ' ');
+    update(7, '    ', '    ', '    OPTIONS.    ', ' ', ' ', ' ', ' ', ' ');
+}
+
+help = () => {
+    console.log('There are 7 rows in the flipboard. To update a row:')
+    console.log("update(row, time, train_number, train, to, from, status, stairway);")
+    console.log("EXAMPLE: update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'BOARDING', '3');")
+    console.log("All parameters are strings except for the row number. The 'train' parameter must be 16 characters long, and padded with spaces if less than 16 characters.")
+    console.log('Clearing a row:');
+    console.log("update(n, '    ', '    ', '                ', ' ', ' ', ' ', ' ', ' ');");
+    console.log("When a train's status is 'BOARDING', a yellow blinker appears");
+    console.log("Changing the status to 'DEPARTED' deactivates the blinker.");
+    console.log("update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'DEPARTED', '3');");
+    console.log("clearBoard(); will clear the board completely.");
+    console.log("populate(); will fill the board up simultaneously.");
+
+}
+
+function Q(f, interval) {
+    setTimeout(() => {
+        f();
+    }, interval);
+}
+
+play = () => {
+    Q(clearBoard, 0);
+    Q(first, 2000);
+    Q(second, 9000);
+    Q(third, 16000);
+    Q(fourth, 22000);
+    //Q(clearBoard, 35000);
+    Q(thanks, 28000);
+}
+
+console.log('Welcome to the 30th Street Flipboard.');
+console.log("Type 'help()' and Enter for a list of commands");

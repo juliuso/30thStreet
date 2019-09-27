@@ -1,20 +1,98 @@
+html {
+  height: 100%;
+}
 body {
   font-family: SF Mono, monospace;
-  font-size: 2em;
+  /* background-image: url('30th_Street_Station_concourse_March_2019.jpeg'); */
+  background-image: url('Philly_30th_St._Station_interior.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  /* background-position: center center; */
+}
+h1 {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 75px; 
+  text-align: center;
+  margin-bottom: 0px;
+}
+h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+h3 {
+  text-align: center;
+}
+span {
+  font-family: Arial, Helvetica, sans-serif;
+}
+th {
+  font-family: Arial, Helvetica, sans-serif;
+}
+th.yellow {
+  color: yellow;
+  font-size: 1.5em;
+}
+.single-cell {
+  /* border: 1px solid red; */
+  /* display: inline-block; */
+  font-size: 18px;
+  width: 18px;
+  height: 23px;
+  padding: 5px 0px 0px 0px;
+  text-decoration: line-through black;
+}
+th, td {
+  border: 1px solid black;
+  text-align: left;
+}
+div.container {
+  width: 1440px;
+  margin: 250px auto;
+  padding: 0px 0px 10px 69px;
   background: black;
-
-}
-
-td {
   color: white;
-  /*text-decoration: line-through;*/
-  padding: 0;
 }
-
-.double {
-  width: 2em;
+div.meta {
+  width: 250px;
+  background: gray;
 }
+#outer-table {
+  table-layout: fixed;
+  /* border: 1px solid brown; */
+}
+.inner-table {
+  table-layout: fixed;
+}
+.inner-table td {
+  overflow: hidden;
+}
+.city-to, .city-from, .train-status, .train-stairway {
+  font-size: 18px;
+  height: 23px;
+  text-decoration: line-through black;
+} 
+.boarding-light {
+  height: 23px;
+}
+.blinker {
+  width: 25%;
+  opacity: 0;
 
-.spacer {
-  background-color: black;
+}
+#r0 {
+  font-size: 18px;
+}
+@keyframes blink {
+  0% {
+      opacity: 1;
+  }
+  50% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+} 
+.blink-image {
+  animation: blink normal 2s infinite ease-in;
 }

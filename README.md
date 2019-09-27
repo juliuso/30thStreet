@@ -1,4 +1,4 @@
-![](30thStreet.gif)
+![](30thStreetScreenShot.png)
 
 # 30thStreet
 
