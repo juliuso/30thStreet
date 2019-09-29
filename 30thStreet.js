@@ -101,10 +101,10 @@ const stairways = [
 
 //(1  , 1031, 2158,   BIEBER-TOURWAYS, ATLANTIC CITY, ATLANTIC CITY, 2hr 45min LATE, 3)
 const update = (row, time, num, train, to, from, status, stairway) => {
-    var rowNumber = 'r' + row;
-    var timeArr = time.split('');
-    var numberArr = num.split('');
-    var trainArr = train.split('');
+    const rowNumber = 'r' + row;
+    const timeArr = time.split('');
+    const numberArr = num.split('');
+    const trainArr = train.split('');
     
     // time [0,3]
     for (let idx = 0; idx < timeArr.length; idx++) {
@@ -166,16 +166,17 @@ const update = (row, time, num, train, to, from, status, stairway) => {
 
 const generateWheelSequence = (wheel, coordinate, ltr) => {
     // Index of current cell.
-    var startingPosition = wheel
+    const startingPosition = wheel
         .indexOf(document.querySelector('#'+coordinate).textContent);
     // Index of new cell to transition to.
-    var endingPosition = wheel.indexOf(ltr);
+    const endingPosition = wheel.indexOf(ltr);
 
-    var wheelOrder = [];
+    // Array to be built and returned.
+    let wheelOrder = [];
 
     // ' 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-./'
     //  0                                      40
-    for (let i = startingPosition; i < wheel.length; i++) {
+    for (let idx = startingPosition; idx < wheel.length; idx++) {
 
         // If the letter doesn't change before and after, do nothing.
         if (startingPosition === endingPosition) {
@@ -183,36 +184,36 @@ const generateWheelSequence = (wheel, coordinate, ltr) => {
         }
         // If the index equals the last character's index in the sequence,
         // add it to the wheel and stop.
-        if (i === endingPosition) {
-            wheelOrder.push(wheel[i]);
+        if (idx === endingPosition) {
+            wheelOrder.push(wheel[idx]);
             break;
         }
 
         // When the last index of the wheel is reached.
-        if ( i === (wheel.length-1) ) {
+        if (idx === (wheel.length-1)) {
             // Indexing starts from the beginning again.
-            if (endingPosition < i) {
+            if (endingPosition < idx) {
                 // Push last index of wheel and start over at i=0.
-                wheelOrder.push(wheel[i]);
-                i = 0;
+                wheelOrder.push(wheel[idx]);
+                idx = 0;
                 // If the index of the last character in the sequence coincides
                 // with the first index of the wheel, add it and break out.
                 // Otherwise add it to the wheel and continue.
-                if (i === endingPosition) {
-                    wheelOrder.push(wheel[i]);
+                if (idx === endingPosition) {
+                    wheelOrder.push(wheel[idx]);
                     break;
                 } else {
-                    wheelOrder.push(wheel[i]);
+                    wheelOrder.push(wheel[idx]);
                 }
             // endingPosition ahead of index, so
             // add to wheel and continue.
             } else {
-                wheelOrder.push(wheel[i]);
+                wheelOrder.push(wheel[idx]);
             }
         // For all other cases where index hasn't reached the
         // last character of the wheel.
         } else {
-            wheelOrder.push(wheel[i]);
+            wheelOrder.push(wheel[idx]);
         }
     }
 
@@ -223,25 +224,16 @@ const changeCell = (wheel, coordinate, ltr) => {
     // console.log(coordinate);
     // console.log(ltr);
 
-    // var AudioContext = window.AudioContext || window.webkitAudioContext;
-    // var audioCtx = new AudioContext();
+    const audio = new Audio('flip.wav');
+    // Time delay between two iterations (in milliseconds).
+    const interval = 150;
+    const wheelOrder = generateWheelSequence(wheel, coordinate, ltr);
 
-    var audio = new Audio('button2a.wav');
-    // var aud = new Audio('440short.wav');
-    
-    // var audioCtx = new Audio("button2a.wav");
-
-    //var audio = new Audio('button2a.wav');
-    var interval = 150; // how much time should the delay between two iterations be (in milliseconds)?
-    var wheelOrder = generateWheelSequence(wheel, coordinate, ltr);
-
-    wheelOrder.forEach( (el, index) => {
-
+    wheelOrder.forEach((el, idx) => {
         setTimeout(function () {
             document.querySelector('#' + coordinate).textContent = el;
             audio.play();
-        }, index * interval);
-
+        }, idx * interval);
     });
 };
 
@@ -287,7 +279,6 @@ const populate = () => {
 
 // First wave of updates.
 const a = () => {
-    //first wave of updates
     update(2, '1055', '646 ', 'KEYSTONE -R     ', 'NEW YORK', 'PHILADELPHIA', '10mins LATE', '7');
     update(3, '1100', '643 ', 'KEYSTONE        ', 'HARRISBURG', 'PHILADELPHIA', 'ON TIME', '9');
 };
@@ -305,7 +296,6 @@ const c = () => {
 
 // Second wave of updates.
 const d = () => {
-    //second wave
     update(1, '1055', '646 ', 'KEYSTONE -R     ', 'NEW YORK', 'PHILADELPHIA', '10mins LATE', '7');
     update(2, '1100', '648 ', 'KEYSTONE        ', 'HARRISBURG', 'PHILADELPHIA', 'BOARDING', '9');
 };
@@ -326,9 +316,8 @@ const g = () => {
 
 };
 
-// '                '
 const thanks = () => {
-  //update(n, '    ', '    ', '                ', ' ', ' ', ' ', ' ', ' ');
+    //update(n, '    ', '    ', '                ', ' ', ' ', ' ', ' ', ' ');
     update(1, '    ', '    ', '   THANKS FOR   ', ' ', ' ', ' ', ' ', ' ');
     update(2, '    ', '    ', 'VISITING. PRESS ', ' ', ' ', ' ', ' ', ' ');
     update(3, '    ', '    ', ' PLAY TO REPEAT ', ' ', ' ', ' ', ' ', ' ');
@@ -350,22 +339,22 @@ const tuse = () => {
 };
 
 const help = () => {
-    console.log('Arrays used in all transitions are alpha, cities, trainStatus, and stairways.');
-    console.log('There are 7 rows (1-7) in the flipboard. To update a row:');
-    console.log("update(row, time, train_number, train, to, from, status, stairway);");
-    console.log("EXAMPLE: update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'BOARDING', '3');");
-    console.log("All parameters are strings except for the row number. The 'train' parameter must be 16 characters long, and padded with spaces if less than 16 characters.");
-    console.log('Clearing a row:');
-    console.log("clearRow(rowNumber);");
-    console.log("When a train's status is 'BOARDING', a yellow blinker appears");
-    console.log("Changing the status to 'DEPARTED' deactivates the blinker.");
-    console.log("update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'DEPARTED', '3');");
-    console.log("clearBoard(); will clear the board completely.");
-    console.log("populate(); will fill the board up all at once.");
-    console.log("first() populates rows 1 and 2.");
-    console.log("second() populates rows 3 and 4.");
-    console.log("third() populates rows 5 and 6.");
-    console.log("fourth() populates row 7.");
+    console.log(`Arrays used in all transitions are alpha, cities, trainStatus, and stairways.`);
+    console.log(`There are 7 rows (1-7) in the flipboard. To update a row:`);
+    console.log(`update(row, time, train_number, train, to, from, status, stairway);`);
+    console.log(`EXAMPLE: update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'BOARDING', '3');`);
+    console.log(`All parameters are strings except for the row number. The 'train' parameter must be 16 characters long, and padded with spaces if less than 16 characters.`);
+    console.log(`Clearing a row:`);
+    console.log(`clearRow(rowNumber);`);
+    console.log(`When a train's status is 'BOARDING', a yellow blinker appears`);
+    console.log(`Changing the status to 'DEPARTED' deactivates the blinker.`);
+    console.log(`update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'DEPARTED', '3');`);
+    console.log(`clearBoard(); will clear the board completely.`);
+    console.log(`populate(); will fill the board up all at once.`);
+    console.log(`first() populates rows 1 and 2.`);
+    console.log(`second() populates rows 3 and 4.`);
+    console.log(`third() populates rows 5 and 6.`);
+    console.log(`fourth() populates row 7.`);
 };
 
 const Q = (f, interval) => {
@@ -390,5 +379,5 @@ const play = () => {
     Q(thanks, 85000);
 };
 
-console.log('Welcome to the 30th Street Flipboard.');
-console.log("Type 'help()' and Enter for a list of commands");
+console.log(`Welcome to the 30th Street Flipboard.`);
+console.log(`Type 'help()' and Enter for a list of commands`);
