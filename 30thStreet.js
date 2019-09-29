@@ -3,7 +3,7 @@ var alpha = ' 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-./'.split('');
 
 // For To/From Cities.
 var cities = [
-	' ',
+    ' ',
     'BOSTON',
     'SPRINGFIELD',
     'NEW HAVEN',
@@ -37,7 +37,7 @@ var cities = [
 
 // For Train Status.
 var trainStatus = [ 
-	' ',
+    ' ',
     'ON TIME',
     'CANCELLED',
     'DELAYED',
@@ -67,77 +67,77 @@ var trainStatus = [
 
 // For Stairway assignment.
 var stairways = [
-	' ',
-	'1',
-	'2',
-	'3',
-	'4',
-	'5',
-	'6',
-	'7',
-	'8',
-	'9',
-	'10',
-	'11',
-	'12',
-	'13',
-	'14',
-	'15',
-	'16',
-	'17',
-	'18',
-	'19',
-	'20',
-	'21',
-	'22',
-	'23',
-	'24',
-	'25',
-	'A',
-	'B',
-	'C'
+    ' ',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+    '22',
+    '23',
+    '24',
+    '25',
+    'A',
+    'B',
+    'C'
 ];
 
 //(1  , 1031, 2158,   BIEBER-TOURWAYS, ATLANTIC CITY, ATLANTIC CITY, 2hr 45min LATE, 3)
 update = (row, time, num, train, to, from, status, stairway) => {
-	var rowNumber = 'r' + row;
-	var timeArr = time.split('');
-	var numberArr = num.split('');
-	var trainArr = train.split('');
-	
-	// time [0,3]
-	for (var i = 0; i < timeArr.length; i++) {
-		var coordinate = rowNumber + 'c' + i;
-		//document.getElementById(coordinate).textContent = timeArr[i];
-		changeCell(alpha, coordinate, timeArr[i]);
-	}
-	
-	// number [4, 7]
-	// changing var from i to j doesn't matter. It's locally scoped.
-	for (var i = 0; i < numberArr.length; i++) {
-		var coordinate = rowNumber + 'c' + (i + 4);
-		//console.log(coordinate, numberArr[i]);
-		//document.getElementById(coordinate).textContent = numberArr[i];
-		changeCell(alpha, coordinate, numberArr[i]);
-	}
-	
-	// train [8, 23]
-	for (var i = 0; i < trainArr.length; i++) {
-		var coordinate = rowNumber + 'c' + (i + 8);
-		//document.getElementById(coordinate).textContent = trainArr[i];
-		changeCell(alpha, coordinate, trainArr[i]);
-	}
-	
-	// to 24
-	//document.getElementById(rowNumber + 'c24').textContent = to;
-	changeCell(cities, rowNumber + 'c24', to)
-	
-	// from 25
-	//document.getElementById(rowNumber + 'c25').textContent = from;
-	changeCell(cities, rowNumber + 'c25', from);
-	
-	// status 26
-	//document.getElementById(rowNumber + 'c26').textContent = status;
+    var rowNumber = 'r' + row;
+    var timeArr = time.split('');
+    var numberArr = num.split('');
+    var trainArr = train.split('');
+    
+    // time [0,3]
+    for (var i = 0; i < timeArr.length; i++) {
+        var coordinate = rowNumber + 'c' + i;
+        //document.getElementById(coordinate).textContent = timeArr[i];
+        changeCell(alpha, coordinate, timeArr[i]);
+    }
+    
+    // number [4, 7]
+    // changing var from i to j doesn't matter. It's locally scoped.
+    for (var i = 0; i < numberArr.length; i++) {
+        var coordinate = rowNumber + 'c' + (i + 4);
+        //console.log(coordinate, numberArr[i]);
+        //document.getElementById(coordinate).textContent = numberArr[i];
+        changeCell(alpha, coordinate, numberArr[i]);
+    }
+    
+    // train [8, 23]
+    for (var i = 0; i < trainArr.length; i++) {
+        var coordinate = rowNumber + 'c' + (i + 8);
+        //document.getElementById(coordinate).textContent = trainArr[i];
+        changeCell(alpha, coordinate, trainArr[i]);
+    }
+    
+    // to 24
+    //document.getElementById(rowNumber + 'c24').textContent = to;
+    changeCell(cities, rowNumber + 'c24', to)
+    
+    // from 25
+    //document.getElementById(rowNumber + 'c25').textContent = from;
+    changeCell(cities, rowNumber + 'c25', from);
+    
+    // status 26
+    //document.getElementById(rowNumber + 'c26').textContent = status;
     
     boardingCheck = (trainStatus, rowNumber, status) => {
         
@@ -155,12 +155,11 @@ update = (row, time, num, train, to, from, status, stairway) => {
         }
 
     };
-
+    
     boardingCheck(trainStatus, rowNumber, status);
-	
-	// stairway 27
-	//document.getElementById(rowNumber + 'c27').textContent = stairway;
-	changeCell(stairways, rowNumber + 'c27', stairway);
+    // stairway 27
+    //document.getElementById(rowNumber + 'c27').textContent = stairway;
+    changeCell(stairways, rowNumber + 'c27', stairway);
 
 }
 
@@ -238,12 +237,10 @@ changeCell = (wheel, coordinate, ltr) => {
     wheelOrder.forEach( (el, index) => {
 
         setTimeout(function () {
-
             document.querySelector('#' + coordinate).textContent = el;
-
             audio.play();
-
         }, index * interval);
+
     });
 }
 
