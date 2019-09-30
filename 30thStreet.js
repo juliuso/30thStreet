@@ -99,6 +99,24 @@ const stairways = [
     'C'
 ];
 
+// Check if boarding light should be activated.
+const checkBoardingLight = (trainStatus, rowNumber, status) => {
+        
+    // Train status, column 26.
+    changeCell(trainStatus, rowNumber + 'c26', status);
+
+    // Boarding light indicator, column 28.
+    // Boarding light only triggered when status parameter
+    // in update() equals "BOARDING" and stairway number is assigned.
+    if (typeof(Number(rowNumber)) === "number" && status === "BOARDING") {
+        document.getElementById(rowNumber + 'c28').children[0].className += " blink-image";
+    } else {
+        document.getElementById(rowNumber + 'c28').children[0].className = "blinker";
+    }
+
+};
+
+// Updates rows in the board.
 // Ex.: update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'BOARDING', '3');
 const update = (row, time, num, train, to, from, status, stairway) => {
     const rowNumber = 'r' + row;
@@ -130,29 +148,14 @@ const update = (row, time, num, train, to, from, status, stairway) => {
     // Train origin (From), column 25.
     changeCell(cities, rowNumber + 'c25', from);
     
-    const boardingCheck = (trainStatus, rowNumber, status) => {
-        
-        // Train status, column 26.
-        changeCell(trainStatus, rowNumber + 'c26', status);
-
-        // Boarding light indicator, column 28.
-        // Boarding light only triggered when status parameter
-        // in update() equals "BOARDING" and stairway number is assigned.
-        if (typeof(Number(rowNumber)) === "number" && status === "BOARDING") {
-            document.getElementById(rowNumber + 'c28').children[0].className += " blink-image";
-        } else {
-            document.getElementById(rowNumber + 'c28').children[0].className = "blinker";
-        }
-
-    };
-    
     // Checks if boarding light should be turned on for the row.
-    boardingCheck(trainStatus, rowNumber, status);
+    checkBoardingLight(trainStatus, rowNumber, status);
     
     // Stairway number, column 27.
     changeCell(stairways, rowNumber + 'c27', stairway);
 
 };
+
 
 const generateWheelSequence = (wheel, coordinate, ltr) => {
     // Index of current cell.
