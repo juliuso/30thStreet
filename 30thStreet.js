@@ -1,8 +1,8 @@
 'use strict';
-// For Time, Number, and Train Columns.
+// Time, Number, and Train Columns.
 const alpha = ' 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-./'.split('');
 
-// For To/From Cities.
+// To/From Cities.
 const cities = [
     ' ',
     'BOSTON',
@@ -36,7 +36,7 @@ const cities = [
     'VERMONT'
 ];
 
-// For Train Status.
+// Train Status.
 const trainStatus = [ 
     ' ',
     'ON TIME',
@@ -66,7 +66,7 @@ const trainStatus = [
     'ONE HOUR LATE'
 ];
 
-// For Stairway assignment.
+// Stairway assignment.
 const stairways = [
     ' ',
     '1',
@@ -99,56 +99,45 @@ const stairways = [
     'C'
 ];
 
-//(1  , 1031, 2158,   BIEBER-TOURWAYS, ATLANTIC CITY, ATLANTIC CITY, 2hr 45min LATE, 3)
+// Ex.: update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'BOARDING', '3');
 const update = (row, time, num, train, to, from, status, stairway) => {
     const rowNumber = 'r' + row;
     const timeArr = time.split('');
     const numberArr = num.split('');
     const trainArr = train.split('');
     
-    // time [0,3]
-    for (let idx = 0; idx < timeArr.length; idx++) {
-        var coordinate = rowNumber + 'c' + idx;
-        //document.getElementById(coordinate).textContent = timeArr[i];
-        changeCell(alpha, coordinate, timeArr[idx]);
-    }
+    // Time, columns 0-3.
+    timeArr.forEach(function(i, val) {
+        let coordinate = rowNumber + 'c' + val;
+        changeCell(alpha, coordinate, i);
+    });
     
-    // number [4, 7]
-    // changing var from i to j doesn't matter. It's locally scoped.
-    for (let idx = 0; idx < numberArr.length; idx++) {
-        var coordinate = rowNumber + 'c' + (idx + 4);
-        //console.log(coordinate, numberArr[i]);
-        //document.getElementById(coordinate).textContent = numberArr[i];
-        changeCell(alpha, coordinate, numberArr[idx]);
-    }
+    // Train number, columns 4-7.
+    numberArr.forEach(function(i, val) {
+        let coordinate = rowNumber + 'c' + (val + 4);
+        changeCell(alpha, coordinate, i);
+    })
     
-    // train [8, 23]
-    for (let idx = 0; idx < trainArr.length; idx++) {
-        var coordinate = rowNumber + 'c' + (idx + 8);
-        //document.getElementById(coordinate).textContent = trainArr[i];
-        changeCell(alpha, coordinate, trainArr[idx]);
-    }
+    // Train service, columns 8-23.
+    trainArr.forEach(function(i, val) {
+        let coordinate = rowNumber + 'c' + (val + 8);
+        changeCell(alpha, coordinate, i);
+    })
     
-    // to 24
-    //document.getElementById(rowNumber + 'c24').textContent = to;
+    // Train destination (TO), column 24.
     changeCell(cities, rowNumber + 'c24', to);
     
-    // from 25
-    //document.getElementById(rowNumber + 'c25').textContent = from;
+    // Train origin (From), column 25.
     changeCell(cities, rowNumber + 'c25', from);
-    
-    // status 26
-    //document.getElementById(rowNumber + 'c26').textContent = status;
     
     const boardingCheck = (trainStatus, rowNumber, status) => {
         
+        // Train status, column 26.
         changeCell(trainStatus, rowNumber + 'c26', status);
 
-        // boarding_light 28
-        // This will eventually activate a CSS class or something to place a
-        // yellow light to in indicate boarding.
-        // console.log(rowNumber);
-
+        // Boarding light indicator, column 28.
+        // Boarding light only triggered when status parameter
+        // in update() equals "BOARDING" and stairway number is assigned.
         if (typeof(Number(rowNumber)) === "number" && status === "BOARDING") {
             document.getElementById(rowNumber + 'c28').children[0].className += " blink-image";
         } else {
@@ -157,9 +146,10 @@ const update = (row, time, num, train, to, from, status, stairway) => {
 
     };
     
+    // Checks if boarding light should be turned on for the row.
     boardingCheck(trainStatus, rowNumber, status);
-    // stairway 27
-    //document.getElementById(rowNumber + 'c27').textContent = stairway;
+    
+    // Stairway number, column 27.
     changeCell(stairways, rowNumber + 'c27', stairway);
 
 };
@@ -221,8 +211,6 @@ const generateWheelSequence = (wheel, coordinate, ltr) => {
 };
 
 const changeCell = (wheel, coordinate, ltr) => {
-    // console.log(coordinate);
-    // console.log(ltr);
 
     const audio = new Audio('flip.wav');
     // Time delay between two iterations (in milliseconds).
@@ -279,6 +267,7 @@ const populate = () => {
 
 // First wave of updates.
 const a = () => {
+    update(1, '1031', '2158', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'DEPARTED', '3');
     update(2, '1055', '646 ', 'KEYSTONE -R     ', 'NEW YORK', 'PHILADELPHIA', '10mins LATE', '7');
     update(3, '1100', '643 ', 'KEYSTONE        ', 'HARRISBURG', 'PHILADELPHIA', 'ON TIME', '9');
 };
@@ -292,7 +281,6 @@ const c = () => {
     update(6, '1116', '141 ', 'REGIONAL        ', 'WASHINGTON', 'SPRINGFIELD', 'ON TIME', ' ');
     update(7, '1123', '4623', 'N.J. TRANSIT    ', 'ATLANTIC CITY', 'PHILADELPHIA', 'ON TIME', ' ');
 };
-
 
 // Second wave of updates.
 const d = () => {
@@ -313,7 +301,6 @@ const f = () => {
 
 const g = () => {
     update(7, '1131', '216A', 'ACELA EXPRESS   ', 'BOSTON', 'WASHINGTON', 'ON TIME', ' ');
-
 };
 
 const thanks = () => {
