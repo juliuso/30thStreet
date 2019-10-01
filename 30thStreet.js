@@ -252,7 +252,7 @@ const tc = () => {
 };
 
 const clearRow = (n) => {
-    update(n, '    ', '    ', '                ', ' ', ' ', ' ', ' ', ' ');
+    update(n, '    ', '    ', '                ', ' ', ' ', ' ', ' ');
 };
 
 const clearBoard = () => {
