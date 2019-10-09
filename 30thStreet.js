@@ -168,7 +168,7 @@ const generateWheelSequence = (wheel, coordinate, ltr) => {
   if (startingPosition <= endingPosition) {
     // Return array without break in sequence.
     return wheel.slice(startingPosition, endingPosition + 1);
-  } else if (startingPosition > endingPosition) {
+  } else {
     // Including remaining part of array and start again from beginning.
     const firstCharIndex = 0;
     const lastCharIndex = wheel.length - 1;
@@ -176,10 +176,6 @@ const generateWheelSequence = (wheel, coordinate, ltr) => {
       ...wheel.slice(startingPosition, lastCharIndex + 1),
       ...wheel.slice(firstCharIndex, endingPosition + 1)
     ];
-  } else {
-    // When startingPosition === endingPosition,
-    // just return startingPosition in array.
-    return [wheel[startingPosition]];
   }
 };
 
