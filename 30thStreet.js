@@ -170,16 +170,16 @@ const generateWheelSequence = (wheel, coordinate, ltr) => {
     return wheel.slice(startingPosition, endingPosition + 1);
   } else {
     // Including remaining part of array and start again from beginning.
-    const firstCharIndex = 0;
     const lastCharIndex = wheel.length - 1;
     return [
       ...wheel.slice(startingPosition, lastCharIndex + 1),
-      ...wheel.slice(firstCharIndex, endingPosition + 1)
+      ...wheel.slice(0, endingPosition + 1)
     ];
   }
 };
 
 const changeCell = (wheel, coordinate, ltr) => {
+  //console.log(wheel, coordinate, ltr);
   const audio = new Audio("flip.wav");
   // Time delay between two iterations (in milliseconds).
   const interval = 150;
