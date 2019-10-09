@@ -1,10 +1,9 @@
 "use strict";
-// lodash loaded.
 
-// Time, Number, and Train Columns.
+// Time, Number, and Train Columns
 const alpha = " 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-./".split("");
 
-// To/From Cities.
+// To/From Cities
 const cities = [
   " ",
   "BOSTON",
@@ -38,7 +37,7 @@ const cities = [
   "VERMONT"
 ];
 
-// Train Status.
+// Train Status
 const trainStatus = [
   " ",
   "ON TIME",
@@ -68,7 +67,7 @@ const trainStatus = [
   "ONE HOUR LATE"
 ];
 
-// Stairway assignment.
+// Stairway assignment
 const stairways = [
   " ",
   "1",
